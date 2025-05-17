@@ -87,7 +87,7 @@ as.data.frame(summary.out$outmat)
 
 ```{r}
 library(car)
-subsets(regsubsets.out,statistic="adjr2",legend="bottom",main ="adjr2")
+subsets(regsubsets.out,statistic="adjr2",legend="bottomleft",main ="adjr2")
 ```
 
 
@@ -100,7 +100,7 @@ The best model is model5, corresponding to L1-L2-L3-H-W
 
 The best two regression model is model12; L1-L3
 
-The best model is different to the best two regression models so we will run ANOVA. 
+The best model is different to the best two regressor models so we will run ANOVA. 
 
 ```{r}
 model5=lm(Weight~.,data=Pike)
@@ -113,8 +113,35 @@ anova(model5,model2)
 
 ## Roach
 
+```{r}
+library(leaps)
+regsubsets.out<-regsubsets(Weight ~.,data=Roach,nbest=1,nvmax=NULL,
+                           force.in=NULL,force.out=NULL,method="exhaustive")
+summary.out<-summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+```
+
+
+```{r}
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomleft",main ="adjr2")
+```
+
+
 ### Best Models
+
+It seems that Model 2 is the best model, as it includes L3 and W as predictors.
 
 ### Best Two regressor model
 
+
+The best overall model and the best two-regressor model are the same—Model 2, which includes L3 and W.
+
 ## Final Summary Statements
+
+
+For both Perch and Roach, the best overall model and the best two-regressor model were the same—Model 2—so there was no need to compare models or perform an ANOVA test to find the p-value. In contrast, Pike had a different best model: Model 5, which included L1, L2, L3, H, and W. The best two-regressor model for Pike was Model 2, which used L1 and L3. In this case, we ran an ANOVA test to compare the two models, and the resulting p-value was 8.679e-10.
+
+
+
+
