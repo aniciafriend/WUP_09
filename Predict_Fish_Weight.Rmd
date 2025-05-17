@@ -50,17 +50,66 @@ Whitefish <- select(Whitefish, -Species)
 
 
 ## Perch
+```{r}
+library(leaps)
+regsubsets.out<-regsubsets(Weight ~.,data=Perch,nbest=1,nvmax=NULL,
+                           force.in=NULL,force.out=NULL,method="exhaustive")
+summary.out<-summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+```
+
+
+```{r}
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottom",main ="adjr2")
+```
+
+
 
 ### Best Models
 
+The best model is the two element model; H & W models. 
+
 ### Best Two regressor model
 
+The best two regressive model is also the model H & W.
 
 ## Pike
 
+```{r}
+library(leaps)
+regsubsets.out<-regsubsets(Weight ~.,data=Pike,nbest=1,nvmax=NULL,
+                           force.in=NULL,force.out=NULL,method="exhaustive")
+summary.out<-summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+```
+
+
+```{r}
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottom",main ="adjr2")
+```
+
+
+
 ### Best Models
 
+The best model is model5, corresponding to L1-L2-L3-H-W
+
 ### Best Two regressor model
+
+The best two regression model is model12; L1-L3
+
+The best model is different to the best two regression models so we will run ANOVA. 
+
+```{r}
+model5=lm(Weight~.,data=Pike)
+summary.lm(model5)
+model2=lm(Weight~ .-Length2-Height-Width, data=Pike)
+model3=lm(Weight~ .-Length2-Height-Width, data=Pike)
+anova(model5,model2)
+```
+
 
 ## Roach
 
